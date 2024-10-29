@@ -15,9 +15,11 @@ Laporan Profit / Los
 <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Tabel Laporan</span>
-        <a href="{{ route('master_chart.create') }}" class="btn btn-primary">Create</a>
+        <button class="btn btn-success btn-round ml-2" id="exportExcel">
+			<i class="fa fa-file-excel"></i>
+			Export Excel
+		</button>
     </div>
-
     <div class="card-body">
         <table class="custom-table">
             <thead>
@@ -67,4 +69,12 @@ Laporan Profit / Los
         </table>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    document.getElementById('exportExcel').addEventListener('click', function() {
+        window.location.href = "{{ route('report.export-excel') }}";
+    });
+</script>
 @endsection

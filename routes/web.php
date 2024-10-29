@@ -39,5 +39,6 @@ Route::put('transaction/edit/{id}', [TransactionController::class, 'update'])->n
 Route::delete('transaction/delete/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
 
 Route::get('report',[ReportController::class,'index'])->name('report.index');
+Route::get('report/export-excel', [ReportController::class, 'exportExcel'])->name('report.export-excel');
 
 
