@@ -13,7 +13,7 @@
         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav">
                 <a class="nav-link" href="{{ route('master_category.index') }}">Master Kategori COA</a>
-                <a class="nav-link" href="layout-sidenav-light.html">Master Chart Of Account</a>
+                <a class="nav-link" href="{{ route('master_chart.index') }}">Master Chart Of Account</a>
             </nav>
         </div>
         <a class="nav-link" href="charts.html">
