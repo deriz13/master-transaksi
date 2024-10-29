@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterChartController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ReportController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -32,5 +33,7 @@ Route::post('transaction/create',[TransactionController::class,'store'])->name('
 Route::get('transaction/edit/{id}',[TransactionController::class,'edit'])->name('transaction.edit');
 Route::put('transaction/edit/{id}', [TransactionController::class, 'update'])->name('transaction.update');
 Route::delete('transaction/delete/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
+
+Route::get('report',[ReportController::class,'index'])->name('report.index');
 
 

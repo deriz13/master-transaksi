@@ -16,6 +16,6 @@ class MasterChart extends Model
 
     public function category()
     {
-        return $this->belongsTo(MasterCategory::class);
+        return $this->belongsTo(MasterCategory::class, 'category_id');
     }
 }

@@ -11,4 +11,9 @@ class MasterCategory extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function masterCharts()
+    {
+        return $this->hasMany(MasterChart::class, 'category_id');
+    }
 }

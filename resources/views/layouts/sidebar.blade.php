@@ -20,9 +20,9 @@
             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Transaksi
         </a>
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="{{ route('report.index') }}">
             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-            Laporan Profit
+            Laporan Profit / Los
         </a>
     </div>
 </div>

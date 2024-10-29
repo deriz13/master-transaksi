@@ -10,7 +10,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $data['transactions'] = Transaction::with('masterChart')->get();
+        $data['transactions'] = Transaction::with(['masterChart.category'])->get();
         return view('transaction.index', $data);
     }
 

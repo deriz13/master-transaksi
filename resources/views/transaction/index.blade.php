@@ -31,6 +31,7 @@ Transaksi
                     <th>Tanggal</th>
                     <th>COA Kode</th>
                     <th>COA Nama</th>
+                    <th>Kategori</th>
                     <th>Desc</th>
                     <th>Debit</th>
                     <th>Credit</th>
@@ -43,6 +44,7 @@ Transaksi
                     <th>Tanggal</th>
                     <th>COA Kode</th>
                     <th>COA Nama</th>
+                    <th>Kategori</th>
                     <th>Desc</th>
                     <th>Debit</th>
                     <th>Credit</th>
@@ -56,6 +58,7 @@ Transaksi
                     <td>{{ $transaction->date }}</td>
                     <td>{{ $transaction->masterChart->code }}</td>
                     <td>{{ $transaction->masterChart->name }}</td>
+                    <td>{{ $transaction->masterChart->category->name }}</td>
                     <td>{{ $transaction->desc }}</td>
                     <td>{{ $transaction->debit }}</td>
                     <td>{{ $transaction->credit }}</td>
