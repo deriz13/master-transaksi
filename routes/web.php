@@ -6,12 +6,15 @@ use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterChartController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AuthController;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard.index');
-Route::get('/',[MasterCategoryController::class,'index']);
+Route::get('/',[AuthController::class,'login']);
+Route::get('/login',[AuthController::class,'login'])->name('login');
+Route::post('/login',[AuthController::class,'loginAction'])->name('login.post');
 
 Route::get('master/category',[MasterCategoryController::class,'index'])->name('master_category.index');
 Route::get('master/category/create',[MasterCategoryController::class,'create'])->name('master_category.create');
