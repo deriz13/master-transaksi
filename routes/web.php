@@ -13,8 +13,9 @@ use App\Http\Controllers\AuthController;
 // });
 Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard.index');
 Route::get('/',[AuthController::class,'login']);
-Route::get('/login',[AuthController::class,'login'])->name('login');
-Route::post('/login',[AuthController::class,'loginAction'])->name('login.post');
+Route::get('login',[AuthController::class,'login'])->name('login');
+Route::post('login',[AuthController::class,'loginAction'])->name('login.post');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('master/category',[MasterCategoryController::class,'index'])->name('master_category.index');
 Route::get('master/category/create',[MasterCategoryController::class,'create'])->name('master_category.create');

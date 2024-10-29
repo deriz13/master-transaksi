@@ -24,9 +24,15 @@ class AuthController extends Controller
     
         if ($user) {
             if (Auth::attempt($credentials)) {
-                return redirect()->route('master_category.index');
+                return redirect()->route('dashboard.index');
             }
         }
         return redirect()->back()->with('error', 'Email atau password salah.');
+    }
+
+    public function logout()
+    {
+      Auth::logout();
+      return redirect('/');
     }
 }
