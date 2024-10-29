@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\MasterChartController;
+use App\Http\Controllers\TransactionController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -24,4 +25,12 @@ Route::post('master/chart/create',[MasterChartController::class,'store'])->name(
 Route::get('master/chart/edit/{id}',[MasterChartController::class,'edit'])->name('master_chart.edit');
 Route::put('master/chart/edit/{id}', [MasterChartController::class, 'update'])->name('master_chart.update');
 Route::delete('master/chart/delete/{id}', [MasterChartController::class, 'destroy'])->name('master_chart.destroy');
+
+Route::get('transaction',[TransactionController::class,'index'])->name('transaction.index');
+Route::get('transaction/create',[TransactionController::class,'create'])->name('transaction.create');
+Route::post('transaction/create',[TransactionController::class,'store'])->name('transaction.store');
+Route::get('transaction/edit/{id}',[TransactionController::class,'edit'])->name('transaction.edit');
+Route::put('transaction/edit/{id}', [TransactionController::class, 'update'])->name('transaction.update');
+Route::delete('transaction/delete/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
+
 

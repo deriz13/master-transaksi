@@ -16,7 +16,7 @@
                 <a class="nav-link" href="{{ route('master_chart.index') }}">Master Chart Of Account</a>
             </nav>
         </div>
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{ route('transaction.index') }}">
             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Transaksi
         </a>
