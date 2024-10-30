@@ -27,7 +27,7 @@ Laporan Profit / Los
                     <th rowspan="2">#</th>
                     <th rowspan="2">Category</th>
                     @foreach($dates as $date)
-                    <th class="text-center">{{ $date }}</th>
+                    <th class="text-center">{{ \Carbon\Carbon::parse($date)->translatedFormat('F Y') }}</th>
                     @endforeach
                     <th rowspan="2">Total</th>
                 </tr>
@@ -51,11 +51,28 @@ Laporan Profit / Los
                     @endforeach
                     <td class="text-center">Rp. {{ number_format($categoryTotal, 0, ',', '.') }}</td>
                 </tr>
+
+                @if(in_array($category, ['Other Income', 'Meal Expense']))
+                <tr>
+                    <td></td>
+                    <td><strong>Total {{ $category }}</strong></td>
+                    @php $subtotal = 0; @endphp
+                    @foreach($dates as $date)
+                    @php $subtotal += ($profits[$date]['profit'] ?? 0); @endphp
+                    <td class="text-center">
+                        <strong>Rp. {{ number_format($profits[$date]['profit'] ?? 0, 0, ',', '.') }}</strong>
+                    </td>
+                    @endforeach
+                    <td class="text-center">
+                        <strong>Rp. {{ number_format($subtotal, 0, ',', '.') }}</strong>
+                    </td>
+                </tr>
+                @endif
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="2" class="text-center">Total Pendapatan Bersih</th>
+                    <th colspan="2" class="text-center">Net Income</th>
                     @foreach($dates as $date)
                     <td class="text-center">
                         Rp. {{ number_format($totalProfits[$date]['total_profit'] ?? 0, 0, ',', '.') }}
