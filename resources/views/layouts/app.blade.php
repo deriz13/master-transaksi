@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <link rel="icon" href="data:;base64,=" />
+    <link rel="icon" href="{{ url('assets/img/favicon.png') }}" />
     <title>Master - Transaksi</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="{{ url('assets/css/styles.css') }}" rel="stylesheet" />

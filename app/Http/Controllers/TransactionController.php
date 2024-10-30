@@ -35,7 +35,7 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $data['master_charts'] = MasterChart::get();
+        $data['master_charts'] = MasterChart::with('category')->get();
         return view('transaction.create', $data);
     }
 
@@ -66,8 +66,8 @@ class TransactionController extends Controller
 
     public function edit($id)
     {
-        $data['transactions'] = Transaction::find($id);
-        $data['master_charts'] = MasterChart::get();
+        $data['transactions'] = Transaction::with(['masterChart.category'])->find($id);
+        $data['master_charts'] = MasterChart::with('category')->get();
 
         return view('transaction.edit', $data);
     }

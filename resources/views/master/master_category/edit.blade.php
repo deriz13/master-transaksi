@@ -5,8 +5,8 @@ Master Kategori
 
 @section('breadcrumb')
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="index.html">Master</a></li>
-    <li class="breadcrumb-item active">Kategori COA</li>
+    <li class="breadcrumb-item"><a href="#">Master</a></li>
+    <li class="breadcrumb-item active">Chart</li>
     <li class="breadcrumb-item active">Edit</li>
 </ol>
 @endsection

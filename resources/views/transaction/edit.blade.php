@@ -6,7 +6,7 @@ Transaksi
 @section('breadcrumb')
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item">Transaksi</li>
-    <li class="breadcrumb-item active">Rdit</li>
+    <li class="breadcrumb-item active">Edit</li>
 </ol>
 @endsection
 @section('content')
