@@ -16,9 +16,9 @@ Laporan Profit / Los
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Tabel Laporan</span>
         <button class="btn btn-success btn-round ml-2" id="exportExcel">
-			<i class="fa fa-file-excel"></i>
-			Export Excel
-		</button>
+            <i class="fa fa-file-excel"></i>
+            Export Excel
+        </button>
     </div>
     <div class="card-body">
         <table class="custom-table">
@@ -27,42 +27,42 @@ Laporan Profit / Los
                     <th rowspan="2">#</th>
                     <th rowspan="2">Category</th>
                     @foreach($dates as $date)
-                        <th class="text-center">{{ $date }}</th>
+                    <th class="text-center">{{ $date }}</th>
                     @endforeach
                     <th rowspan="2">Total</th>
                 </tr>
                 <tr>
                     @foreach($dates as $date)
-                        <th>Amount</th>
+                    <th>Amount</th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
                 @foreach($groupedProfits as $category => $profits)
-                    <tr>
-                        <td>{{ $loop->index + 1 }}</td>
-                        <td>{{ $category }}</td>
-                        @php $categoryTotal = 0; @endphp
-                        @foreach($dates as $date)
-                            <td class="text-center">
-                                {{ $profits[$date]['profit'] ?? 0 }}
-                            </td>
-                            @php $categoryTotal += ($profits[$date]['profit'] ?? 0); @endphp
-                        @endforeach
-                        <td class="text-center">{{ $categoryTotal }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ $loop->index + 1 }}</td>
+                    <td>{{ $category }}</td>
+                    @php $categoryTotal = 0; @endphp
+                    @foreach($dates as $date)
+                    <td class="text-center">
+                        Rp. {{ number_format($profits[$date]['profit'] ?? 0, 0, ',', '.') }}
+                    </td>
+                    @php $categoryTotal += ($profits[$date]['profit'] ?? 0); @endphp
+                    @endforeach
+                    <td class="text-center">Rp. {{ number_format($categoryTotal, 0, ',', '.') }}</td>
+                </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
                     <th colspan="2" class="text-center">Total Pendapatan Bersih</th>
                     @foreach($dates as $date)
-                        <td class="text-center">
-                            {{ $totalProfits[$date]['total_profit'] ?? 0 }}
-                        </td>
+                    <td class="text-center">
+                        Rp. {{ number_format($totalProfits[$date]['total_profit'] ?? 0, 0, ',', '.') }}
+                    </td>
                     @endforeach
                     <td class="text-center">
-                        {{ array_sum(array_column($totalProfits, 'total_profit')) }}
+                        Rp. {{ number_format(array_sum(array_column($totalProfits, 'total_profit')), 0, ',', '.') }}
                     </td>
                 </tr>
             </tfoot>

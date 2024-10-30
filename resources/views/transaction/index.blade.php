@@ -71,20 +71,20 @@ Transaksi
                 @foreach($transactions as $transaction)
                 <tr>
                     <th>{{ $loop->index + 1 }}</th>
-                    <td>{{ $transaction->date }}</td>
+                    <td>{{ \Carbon\Carbon::parse($transaction->date)->translatedFormat('d F Y') }}</td>
                     <td>{{ $transaction->masterChart->code }}</td>
                     <td>{{ $transaction->masterChart->name }}</td>
                     <td>{{ $transaction->masterChart->category->name }}</td>
                     <td>{{ $transaction->desc }}</td>
-                    <td>{{ $transaction->debit }}</td>
-                    <td>{{ $transaction->credit }}</td>
-                    <th>
-                        <a href="{{ route('transaction.edit', ['id' => $transaction->id]) }}" class="btn btn-success btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <button onclick="deleteItem('{{ $transaction->id }}')" type="button" class="btn btn-danger btn-sm">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                    <td>Rp. {{ number_format($transaction->debit ?? 0, 0, ',', '.') }}</td>
+                    <td>Rp. {{ number_format($transaction->credit ?? 0, 0, ',', '.') }}</td>
+                        <th>
+                    <a href="{{ route('transaction.edit', ['id' => $transaction->id]) }}" class="btn btn-success btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <button onclick="deleteItem('{{ $transaction->id }}')" type="button" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                    </button>
                     </th>
                 </tr>
                 @endforeach

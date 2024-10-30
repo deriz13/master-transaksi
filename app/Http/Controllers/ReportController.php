@@ -30,7 +30,7 @@ class ReportController extends Controller
             }
             $groupedProfits[$categoryName][$date]['debit'] += $profit->debit;
             $groupedProfits[$categoryName][$date]['credit'] += $profit->credit;
-            $groupedProfits[$categoryName][$date]['profit'] = $groupedProfits[$categoryName][$date]['debit'] - $groupedProfits[$categoryName][$date]['credit'];
+            $groupedProfits[$categoryName][$date]['profit'] = $groupedProfits[$categoryName][$date]['credit'] - $groupedProfits[$categoryName][$date]['debit'];
             if (!isset($totalProfits[$date])) {
                 $totalProfits[$date] = [
                     'total_debit' => 0,
@@ -40,7 +40,7 @@ class ReportController extends Controller
             }
             $totalProfits[$date]['total_debit'] += $profit->debit;
             $totalProfits[$date]['total_credit'] += $profit->credit;
-            $totalProfits[$date]['total_profit'] = $totalProfits[$date]['total_debit'] - $totalProfits[$date]['total_credit'];
+            $totalProfits[$date]['total_profit'] = $totalProfits[$date]['total_credit'] - $totalProfits[$date]['total_debit'];
         }
         $dates = collect($profits)->pluck('date')->unique();
         $data['groupedProfits'] = $groupedProfits;
@@ -52,9 +52,8 @@ class ReportController extends Controller
 
     public function exportExcel()
     {
-
         $profits = Transaction::with(['masterChart.category'])->get();
-        
+
         $groupedProfits = [];
         $totalProfits = [];
         $dates = [];
@@ -81,7 +80,7 @@ class ReportController extends Controller
 
             $groupedProfits[$categoryName][$date]['debit'] += $profit->debit;
             $groupedProfits[$categoryName][$date]['credit'] += $profit->credit;
-            $groupedProfits[$categoryName][$date]['profit'] = $groupedProfits[$categoryName][$date]['debit'] - $groupedProfits[$categoryName][$date]['credit'];
+            $groupedProfits[$categoryName][$date]['profit'] = $groupedProfits[$categoryName][$date]['credit'] - $groupedProfits[$categoryName][$date]['debit'];
 
             if (!isset($totalProfits[$date])) {
                 $totalProfits[$date] = [
@@ -93,7 +92,7 @@ class ReportController extends Controller
 
             $totalProfits[$date]['total_debit'] += $profit->debit;
             $totalProfits[$date]['total_credit'] += $profit->credit;
-            $totalProfits[$date]['total_profit'] = $totalProfits[$date]['total_debit'] - $totalProfits[$date]['total_credit'];
+            $totalProfits[$date]['total_profit'] = $totalProfits[$date]['total_credit'] - $totalProfits[$date]['total_debit'];
         }
 
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
@@ -119,25 +118,27 @@ class ReportController extends Controller
 
             foreach ($dates as $date) {
                 $profitValue = $profits[$date]['profit'] ?? 0;
-                $sheet->setCellValue(chr(67 + array_search($date, $dates)) . $row, $profitValue);
+                $formattedProfit = 'Rp. ' . number_format($profitValue, 0, ',', '.');
+                $sheet->setCellValue(chr(67 + array_search($date, $dates)) . $row, $formattedProfit);
                 $categoryTotal += $profitValue;
             }
 
-            $sheet->setCellValue(chr(67 + count($dates)) . $row, $categoryTotal);
+            $sheet->setCellValue(chr(67 + count($dates)) . $row, 'Rp. ' . number_format($categoryTotal, 0, ',', '.'));
             $row++;
         }
 
         $sheet->getStyle('A1:' . chr(67 + count($dates)) . '2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle('A1:' . chr(67 + count($dates)) . '2')->getFill()->getStartColor()->setARGB('FFFFFF00'); // Warna abu-abu untuk header
+        $sheet->getStyle('A1:' . chr(67 + count($dates)) . '2')->getFill()->getStartColor()->setARGB('FFFFFF00');
 
         $sheet->setCellValue('A' . $row, 'Total Pendapatan Bersih');
         $sheet->mergeCells('A' . $row . ':B' . $row);
         foreach ($dates as $date) {
-            $sheet->setCellValue(chr(67 + array_search($date, $dates)) . $row, $totalProfits[$date]['total_profit'] ?? 0);
+            $totalProfitValue = $totalProfits[$date]['total_profit'] ?? 0;
+            $sheet->setCellValue(chr(67 + array_search($date, $dates)) . $row, 'Rp. ' . number_format($totalProfitValue, 0, ',', '.'));
         }
-        $sheet->setCellValue(chr(67 + count($dates)) . $row, array_sum(array_column($totalProfits, 'total_profit')));
+        $sheet->setCellValue(chr(67 + count($dates)) . $row, 'Rp. ' . number_format(array_sum(array_column($totalProfits, 'total_profit')), 0, ',', '.'));
         $sheet->getStyle('A' . $row . ':' . chr(67 + count($dates)) . $row)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
-        $sheet->getStyle('A' . $row . ':' . chr(67 + count($dates)) . $row)->getFill()->getStartColor()->setARGB('FFCCFFCC'); // Warna hijau muda untuk footer
+        $sheet->getStyle('A' . $row . ':' . chr(67 + count($dates)) . $row)->getFill()->getStartColor()->setARGB('FFCCFFCC');
 
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $filename = 'Laporan_Profit_' . date("Ymd") . '.xlsx';
