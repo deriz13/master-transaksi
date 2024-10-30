@@ -5,19 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MasterChart;
 use App\Models\Transaction;
+use App\Models\MasterCategory;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['transactions'] = Transaction::with(['masterChart.category'])->get();
+        $query = Transaction::with(['masterChart.category']);
+        if ($request->filled('coa_name')) {
+            $query->whereHas('masterChart', function ($q) use ($request) {
+                $q->where('name', $request->coa_name);
+            });
+        }
+        if ($request->filled('category')) {
+            $query->whereHas('masterChart.category', function ($q) use ($request) {
+                $q->where('name', $request->category);
+            });
+        }
+
+        $data['transactions'] = $query->get();
+        if ($request->ajax()) {
+            return response()->json($data);
+        }
+        $data['coaNames'] = MasterChart::distinct()->pluck('name');
+        $data['categories'] = MasterCategory::distinct()->pluck('name');
+
         return view('transaction.index', $data);
     }
 
     public function create()
     {
         $data['master_charts'] = MasterChart::get();
-        return view('transaction.create',$data);
+        return view('transaction.create', $data);
     }
 
     public function store(Request $request)

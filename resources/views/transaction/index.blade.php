@@ -16,13 +16,29 @@ Transaksi
 </div>
 @endif
 <div class="card mb-4">
+    <form id="filter-form" class="d-flex gap-2">
+        <select name="coa_name" id="coa-name-filter" class="form-select form-select-sm">
+            <option value="">Pilih COA Nama</option>
+            @foreach($coaNames as $coaName)
+            <option value="{{ $coaName }}">{{ $coaName }}</option>
+            @endforeach
+        </select>
+        <select name="category" id="category-filter" class="form-select form-select-sm">
+            <option value="">Pilih Kategori</option>
+            @foreach($categories as $category)
+            <option value="{{ $category }}">{{ $category }}</option>
+            @endforeach
+        </select>
+        <button type="button" id="reset-filter" class="btn btn-outline-secondary btn-sm">Reset</button>
+    </form>
+</div>
+<div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
         <span>Tabel Transaksi</span>
         <a href="{{ route('transaction.create') }}" class="btn btn-primary">
-        <i class="fas fa-plus"></i>
-        Create</a>
+            <i class="fas fa-plus"></i>
+            Create</a>
     </div>
-
     <div class="card-body">
         <table id="datatablesSimple">
             <thead>
@@ -39,7 +55,7 @@ Transaksi
                 </tr>
             </thead>
             <tfoot>
-            <tr>
+                <tr>
                     <th>#</th>
                     <th>Tanggal</th>
                     <th>COA Kode</th>
@@ -119,5 +135,56 @@ Transaksi
         });
     }
 </script>
+<script>
+    $(document).ready(function() {
+        function fetchFilteredData() {
+            let coaName = $('#coa-name-filter').val();
+            let category = $('#category-filter').val();
 
+            $.ajax({
+                url: '{{ route("transaction.index") }}',
+                type: 'GET',
+                data: {
+                    coa_name: coaName,
+                    category: category,
+                },
+                success: function(response) {
+                    let tbody = '';
+                    response.transactions.forEach((transaction, index) => {
+                        tbody += `<tr>
+                            <th>${index + 1}</th>
+                            <td>${transaction.date}</td>
+                            <td>${transaction.master_chart.code}</td>
+                            <td>${transaction.master_chart.name}</td>
+                            <td>${transaction.master_chart.category.name}</td>
+                            <td>${transaction.desc}</td>
+                            <td>${transaction.debit}</td>
+                            <td>${transaction.credit}</td>
+                            <th>
+                                <a href="{{ route('transaction.edit', '') }}/${transaction.id}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button onclick="deleteItem('${transaction.id}')" type="button" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </th>
+                        </tr>`;
+                    });
+                    $('#datatablesSimple tbody').html(tbody);
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        }
+        $('#coa-name-filter, #category-filter').change(function() {
+            fetchFilteredData();
+        });
+        $('#reset-filter').click(function() {
+            $('#coa-name-filter').val('');
+            $('#category-filter').val('');
+            fetchFilteredData();
+        });
+    });
+</script>
 @endsection
